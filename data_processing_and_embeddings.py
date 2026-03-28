@@ -2,6 +2,7 @@ import json
 import numpy as np
 import faiss
 from sentence_transformers import SentenceTransformer
+import pickle
 
 with open('/Users/wynum_air_14/xyz/research_paper_idea_generation/data/top_10000_records.json','r') as f:
     data = json.load(f)
@@ -39,6 +40,12 @@ index = faiss.IndexFlatL2(dimension)
 
 index.add(embeddings)
 # print("indexes:::::::::",index)
+
+tokenized_corpus = [doc["text"].lower().split() for doc in documents]
+
+with open("bm25_corpus.pkl", "wb") as f:
+    pickle.dump(tokenized_corpus, f)
+
 #ID mapping
 id_to_doc = {i: documents[i] for i in range(len(documents))}
 
